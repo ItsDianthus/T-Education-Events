@@ -3,6 +3,7 @@ package com.t_educational.t_edu_events.controller;
 import com.t_educational.t_edu_events.model.Event;
 import com.t_educational.t_edu_events.service.EventService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,6 +20,7 @@ public class EventController {
 
     // GET api/events - получить все мероприятия
     @GetMapping("/events")
+    @PreAuthorize("isAuthenticated()") // Только аутентифицированные пользователи
     public List<Event> getAllEvents() {
         return eventService.getAllEvents();
     }
