@@ -8,8 +8,18 @@ import java.util.Map;
 @RestController
 public class TestController {
 
-    @GetMapping("/public/api/greeting")
+    @GetMapping("/api/public/greeting")
     public Map<String, String> greeting() {
-        return Map.of("message", "Привет, REST!", "message2", "Hello");
+        return Map.of("message", "Привет, public!", "message2", "Hello");
+    }
+
+    @GetMapping("/api/admin/greeting")
+    public Map<String, String> greeting2() {
+        return Map.of("message", "Привет, admin!", "message2", "Hello");
+    }
+
+    @GetMapping("/api/greeting")
+    public Map<String, String> greeting3() {
+        return Map.of("message", "Привет, user!", "message2", "Hello");
     }
 }
