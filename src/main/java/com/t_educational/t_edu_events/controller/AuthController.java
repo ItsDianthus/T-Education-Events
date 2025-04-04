@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("api/auth")
 @RequiredArgsConstructor
 public class AuthController {
 
@@ -20,9 +20,9 @@ public class AuthController {
         String password = request.get("password");
         try {
             String token = authService.register(email, password);
-            return ResponseEntity.ok(Map.of("token", token)); // ✅ 200 OK
+            return ResponseEntity.ok(Map.of("token", token));
         } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage())); // ❌ 400 Bad Request
+            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
         }
 
     }
@@ -33,9 +33,9 @@ public class AuthController {
         String password = request.get("password");
         try {
             String token = authService.login(email, password);
-            return ResponseEntity.ok(Map.of("token", token)); // ✅ 200 OK
+            return ResponseEntity.ok(Map.of("token", token));
         } catch (RuntimeException e) {
-            return ResponseEntity.status(401).body(Map.of("error", "Неверный email или пароль")); // ❌ 401 Unauthorized
+            return ResponseEntity.status(401).body(Map.of("error", "Неверный email или пароль"));
         }
 
     }

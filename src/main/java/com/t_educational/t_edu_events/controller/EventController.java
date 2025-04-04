@@ -37,9 +37,9 @@ public class EventController {
     public ResponseEntity<Void> deleteEvent(@PathVariable Long id) {
         boolean deleted = eventService.deleteEvent(id);
         if (deleted) {
-            return ResponseEntity.noContent().build(); // 204 No Content
+            return ResponseEntity.noContent().build();
         } else {
-            return ResponseEntity.notFound().build(); // 404 Not Found
+            return ResponseEntity.notFound().build();
         }
     }
 }
