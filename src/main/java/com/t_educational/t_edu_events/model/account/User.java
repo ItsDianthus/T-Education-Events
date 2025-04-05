@@ -1,5 +1,7 @@
 package com.t_educational.t_edu_events.model.account;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDateTime;
@@ -37,5 +39,6 @@ public class User {
     private LocalDateTime updatedAt = LocalDateTime.now();
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonBackReference
     private UserProfile userProfile;
 }
