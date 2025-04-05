@@ -1,5 +1,6 @@
 package com.t_educational.t_edu_events.security;
 
+import com.t_educational.t_edu_events.exception.JwtTokenException;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.stereotype.Component;
@@ -40,7 +41,7 @@ public class JwtUtil {
                     .getBody()
                     .getSubject();
         } catch (SignatureException e) {
-            throw new RuntimeException("Ошибка подписи JWT: " + e.getMessage());
+            throw new JwtTokenException("Ошибка подписи JWT: " + e.getMessage());
         }
     }
 
@@ -53,7 +54,7 @@ public class JwtUtil {
                     .getBody()
                     .get("role", String.class);
         } catch (JwtException e) {
-            throw new RuntimeException("Ошибка извлечения роли из JWT: " + e.getMessage());
+            throw new JwtTokenException("Ошибка извлечения роли из JWT: " + e.getMessage());
         }
     }
 

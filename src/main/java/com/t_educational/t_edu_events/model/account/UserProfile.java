@@ -1,5 +1,7 @@
 package com.t_educational.t_edu_events.model.account;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -41,5 +43,6 @@ public class UserProfile {
     @OneToOne
     @MapsId
     @JoinColumn(name = "user_id")
+    @JsonManagedReference
     private User user;
 }

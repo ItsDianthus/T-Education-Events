@@ -1,5 +1,6 @@
 package com.t_educational.t_edu_events.security;
 
+import com.t_educational.t_edu_events.exception.JwtTokenException;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;
 import jakarta.servlet.FilterChain;
@@ -42,14 +43,22 @@ public class JwtFilter extends OncePerRequestFilter {
                 SecurityContextHolder.getContext().setAuthentication(authentication);
 
             } catch (ExpiredJwtException e) {
-                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Токен истек");
+                setErrorResponse(response, HttpServletResponse.SC_UNAUTHORIZED, "Токен истек: " + e.getMessage());
                 return;
-            } catch (JwtException e) {
-                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Некорректный токен");
+            } catch (JwtTokenException e) {
+                setErrorResponse(response, HttpServletResponse.SC_UNAUTHORIZED, "Некорректный токен: " + e.getMessage());
                 return;
             }
         }
 
         chain.doFilter(request, response);
     }
+
+    // Вспомогательный метод для установки JSON-ответа с ошибкой
+    private void setErrorResponse(HttpServletResponse response, int status, String message) throws IOException {
+        response.setStatus(status);
+        response.setContentType("application/json");
+        response.getWriter().write("{\"error\": \"" + message + "\"}");
+    }
+
 }
