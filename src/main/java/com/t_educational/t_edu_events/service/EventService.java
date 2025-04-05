@@ -5,6 +5,7 @@ import com.t_educational.t_edu_events.repository.EventRepository;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class EventService {
@@ -23,7 +24,7 @@ public class EventService {
         return eventRepository.save(event);
     }
 
-    public boolean deleteEvent(Long id) {
+    public boolean deleteEvent(UUID id) {
         Optional<Event> event = eventRepository.findById(id);
         if (event.isPresent()) {
             eventRepository.deleteById(id);
