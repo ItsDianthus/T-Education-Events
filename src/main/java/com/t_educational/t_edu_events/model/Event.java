@@ -1,30 +1,35 @@
 package com.t_educational.t_edu_events.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-
-import lombok.Getter;
-import lombok.Setter;
+import jakarta.persistence.*;
+import lombok.*;
+import java.time.LocalDate;
+import java.util.UUID;
 
 @Entity
+@Table(name = "events")
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Event {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue
+    @Column(columnDefinition = "uuid", updatable = false, nullable = false)
+    private UUID id;
+
+    @Column(nullable = false)
     private String name;
-    private String description;
-    private String date;
 
-    public Event() {}
+    @Column(name = "start_date")
+    private LocalDate startDate;
 
-    public Event(String name, String description, String date) {
-        this.name = name;
-        this.description = description;
-        this.date = date;
-    }
+    @Column(name = "end_date")
+    private LocalDate endDate;
+
+    @Column(name = "is_active", nullable = false)
+    private boolean isActive;
+
+    @Column(name = "template_event_id")
+    private UUID templateEventId;
 }
