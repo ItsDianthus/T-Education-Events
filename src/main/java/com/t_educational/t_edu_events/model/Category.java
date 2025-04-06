@@ -26,4 +26,7 @@ public class Category {
     @ManyToMany(mappedBy = "categories")
     @JsonIgnore
     private Set<Event> events = new HashSet<>();
+
+    @ManyToMany(mappedBy = "categories")
+    private Set<GameImplementation> gameImplementations = new HashSet<>();
 }
