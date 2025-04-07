@@ -1,6 +1,6 @@
-package com.t_educational.t_edu_events.game.quiz;
+package com.t_educational.t_edu_events.game.quiz.repository;
 
-import com.t_educational.t_edu_events.game.quiz.QuizConfigEntity;
+import com.t_educational.t_edu_events.game.quiz.model.QuizConfigEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

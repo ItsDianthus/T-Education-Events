@@ -1,5 +1,8 @@
-package com.t_educational.t_edu_events.game.quiz;
+package com.t_educational.t_edu_events.game.quiz.controller;
 
+import com.t_educational.t_edu_events.game.quiz.model.QuizConfig;
+import com.t_educational.t_edu_events.game.quiz.model.QuizConfigEntity;
+import com.t_educational.t_edu_events.game.quiz.repository.QuizConfigRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

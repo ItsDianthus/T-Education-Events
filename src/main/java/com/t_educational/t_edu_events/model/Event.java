@@ -31,7 +31,6 @@ public class Event {
     @Column(name = "is_active", nullable = false)
     private boolean active;
 
-    // Связь many-to-many через промежуточную таблицу event_category
     @ManyToMany
     @JoinTable(
             name = "event_category",

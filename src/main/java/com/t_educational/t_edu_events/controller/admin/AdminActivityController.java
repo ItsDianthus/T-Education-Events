@@ -14,7 +14,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/api/admin/events/{eventID}/activities")
 @RequiredArgsConstructor
-public class ActivityAdminController {
+public class AdminActivityController {
 
     private final ActivityRepository activityRepository;
     private final EventRepository eventRepository;

@@ -1,4 +1,4 @@
-package com.t_educational.t_edu_events.game.quiz;
+package com.t_educational.t_edu_events.game.quiz.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

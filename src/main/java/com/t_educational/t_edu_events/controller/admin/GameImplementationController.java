@@ -1,6 +1,6 @@
 package com.t_educational.t_edu_events.controller.admin;
 
-import com.t_educational.t_edu_events.model.GameImplementation;
+import com.t_educational.t_edu_events.model.game.GameImplementation;
 import com.t_educational.t_edu_events.repository.GameImplementationRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

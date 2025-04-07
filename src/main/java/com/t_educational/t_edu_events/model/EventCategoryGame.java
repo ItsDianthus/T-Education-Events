@@ -2,6 +2,7 @@ package com.t_educational.t_edu_events.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.t_educational.t_edu_events.model.game.GameImplementation;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
@@ -39,13 +40,11 @@ public class EventCategoryGame {
     @JoinColumn(name = "game_id")
     private GameImplementation game;
 
-    // Новый геттер для event, возвращающий только идентификатор
     @JsonProperty("event")
     public Object getEventId() {
         return event != null ? event.getId() : null;
     }
 
-    // Новый геттер для category, возвращающий только идентификатор
     @JsonProperty("category")
     public Object getCategoryId() {
         return category != null ? category.getId() : null;

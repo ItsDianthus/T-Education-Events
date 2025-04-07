@@ -12,7 +12,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/api/admin/categories")
 @RequiredArgsConstructor
-public class CategoryAdminController {
+public class AdminCategoryController {
 
     private final CategoryRepository categoryRepository;
 

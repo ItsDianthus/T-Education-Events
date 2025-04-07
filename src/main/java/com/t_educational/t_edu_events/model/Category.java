@@ -1,5 +1,6 @@
 package com.t_educational.t_edu_events.model;
 
+import com.t_educational.t_edu_events.model.game.GameImplementation;
 import jakarta.persistence.*;
 import lombok.*;
 

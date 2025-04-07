@@ -1,7 +1,7 @@
-package com.t_educational.t_edu_events.model;
+package com.t_educational.t_edu_events.model.game;
 
 public enum GameSessionStatus {
-    NOT_STARTED,
     IN_PROGRESS,
+    PAUSED,
     FINISHED
 }

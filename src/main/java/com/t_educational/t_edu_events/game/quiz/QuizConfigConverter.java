@@ -1,6 +1,7 @@
 package com.t_educational.t_edu_events.game.quiz;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.t_educational.t_edu_events.game.quiz.model.QuizConfig;
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
 

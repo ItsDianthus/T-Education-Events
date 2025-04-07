@@ -12,7 +12,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/api/admin/events")
 @RequiredArgsConstructor
-public class EventAdminController {
+public class AdminEventController {
 
     private final EventRepository eventRepository;
 

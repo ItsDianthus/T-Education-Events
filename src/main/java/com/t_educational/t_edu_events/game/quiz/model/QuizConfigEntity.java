@@ -1,5 +1,6 @@
-package com.t_educational.t_edu_events.game.quiz;
+package com.t_educational.t_edu_events.game.quiz.model;
 
+import com.t_educational.t_edu_events.game.quiz.QuizConfigConverter;
 import jakarta.persistence.*;
 import lombok.*;
 import java.util.UUID;
