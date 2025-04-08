@@ -3,9 +3,7 @@ package com.t_educational.t_edu_events.model;
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 @Entity
 @Table(name = "events")

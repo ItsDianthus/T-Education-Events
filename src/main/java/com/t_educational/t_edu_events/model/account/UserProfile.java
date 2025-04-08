@@ -1,6 +1,5 @@
 package com.t_educational.t_edu_events.model.account;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;

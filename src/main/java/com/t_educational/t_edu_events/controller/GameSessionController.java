@@ -27,46 +27,45 @@ public class GameSessionController {
     private final UserRepository userRepository;
 
      // POST /api/events/{eventId}/categories/{categoryId}/games/{gameId}/start - запуск игровой сессии
-    @PostMapping("/start")
-    public ResponseEntity<String> startGameSession(
-            @PathVariable UUID eventId,
-            @PathVariable UUID categoryId,
-            @PathVariable UUID gameId,
-            Principal principal) {
+     @PostMapping("/start")
+     public ResponseEntity<String> startGameSession(
+             @PathVariable UUID eventId,
+             @PathVariable UUID categoryId,
+             @PathVariable UUID gameId,
+             Principal principal) {
 
-        String email = principal.getName();
-        UUID userId = userRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("User not found")).getId();
-        GameImplementation game = gameImplementationRepository.findById(gameId)
-                .orElseThrow(() -> new RuntimeException("Game not found"));
-        Optional<GameSession> existingSession = gameSessionRepository.findByUserIdAndGameIdAndStatusIn(
-                userId, gameId, List.of(GameSessionStatus.IN_PROGRESS, GameSessionStatus.PAUSED)
-        );
-        if (existingSession.isPresent()) {
-            return ResponseEntity.badRequest().body("Session already exists");
-        }
+         String email = principal.getName();
+         UUID userId = userRepository.findByEmail(email)
+                 .orElseThrow(() -> new RuntimeException("User not found")).getId();
 
-        // Новая сессия
-        GameSession session = new GameSession();
-        session.setUserId(userId);
-        session.setGameId(gameId);
-        session.setStatus(GameSessionStatus.IN_PROGRESS);
-        session.setPoints(0);
-        session.setStartTime(LocalDateTime.now());
-        session.setLastUpdate(LocalDateTime.now());
+         GameImplementation game = gameImplementationRepository.findById(gameId)
+                 .orElseThrow(() -> new RuntimeException("Game not found"));
 
-        GameSession savedSession = gameSessionRepository.save(session);
+         Optional<GameSession> existingSession = gameSessionRepository.findByUserIdAndGameIdAndStatusIn(
+                 userId, gameId, List.of(GameSessionStatus.IN_PROGRESS, GameSessionStatus.PAUSED, GameSessionStatus.FINISHED)
+         );
+         if (existingSession.isPresent()) {
+             return ResponseEntity.badRequest().body("Session already exists");
+         }
 
-        if ("QUIZ".equalsIgnoreCase(game.getEngineType())) {
-            // Вызываем сервис QUIZ, передавая configReference, userId, gameId и ID общей сессии как строку
-            String engineData = quizGameService.startSession(game.getConfigReference(), userId, gameId, savedSession.getSessionId().toString());
-            return ResponseEntity.ok(engineData);
-        } // Здесь можно сделать свитч кейс по движкам
-        else {
-            return ResponseEntity.badRequest().body("Unsupported game engine");
-        }
-    }
-     // POST /api/events/{eventId}/categories/{categoryId}/games/{gameId}/finish - завершение сессии
+         GameSession session = new GameSession();
+         session.setUserId(userId);
+         session.setGameId(gameId);
+         session.setStatus(GameSessionStatus.IN_PROGRESS);
+         session.setPoints(0);
+         session.setStartTime(LocalDateTime.now());
+         session.setLastUpdate(LocalDateTime.now());
+         GameSession savedSession = gameSessionRepository.save(session);
+
+         if ("QUIZ".equalsIgnoreCase(game.getEngineType())) {
+             String engineData = quizGameService.startSession(game.getConfigReference(), userId, gameId, savedSession.getSessionId().toString());
+             return ResponseEntity.ok(engineData);
+         } else {
+             return ResponseEntity.badRequest().body("Unsupported game engine");
+         }
+     }
+
+    // POST /api/events/{eventId}/categories/{categoryId}/games/{gameId}/finish - завершение сессии
     @PostMapping("/finish")
     public ResponseEntity<GameSession> finishGameSession(
             @PathVariable UUID eventId,
@@ -79,7 +78,6 @@ public class GameSessionController {
                 .orElseThrow(() -> new RuntimeException("User not found"))
                 .getId();
 
-        // Ищем сессиююю
         Optional<GameSession> optionalSession = gameSessionRepository.findByUserIdAndGameIdAndStatusIn(
                 userId, gameId, List.of(GameSessionStatus.IN_PROGRESS, GameSessionStatus.PAUSED)
         );

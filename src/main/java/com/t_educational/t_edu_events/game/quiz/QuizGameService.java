@@ -31,13 +31,16 @@ public class QuizGameService {
 
     public String startSession(String configReference, UUID userId, UUID gameId, String gameSessionIdReference) {
         UUID configId = UUID.fromString(configReference);
+
         QuizConfigEntity configEntity = quizConfigRepository.findById(configId)
                 .orElseThrow(() -> new RuntimeException("Quiz configuration not found"));
         QuizConfig config = configEntity.getConfigData();
         if (config.getQuestions() == null || config.getQuestions().isEmpty()) {
             throw new RuntimeException("No questions found in configuration");
         }
+
         QuizConfig.Question firstQuestion = config.getQuestions().get(0);
+
         Map<String, Object> engineState = new HashMap<>();
         engineState.put("currentQuestion", 1);
         engineState.put("totalPoints", 0);
@@ -51,6 +54,7 @@ public class QuizGameService {
         quizSession.setTotalPoints(0);
         quizSession.setConfigId(configId);
         QuizGameSession savedQuizSession = quizGameSessionRepository.save(quizSession);
+
         engineState.put("internalSessionId", savedQuizSession.getSessionId().toString());
 
         try {
@@ -59,6 +63,7 @@ public class QuizGameService {
             throw new RuntimeException("Error generating engine data", e);
         }
     }
+
 
     public int finishSession(UUID userId, UUID gameId) {
         Optional<QuizGameSession> quizSessionOpt = quizGameSessionRepository.findTopByUserIdAndGameIdOrderBySessionIdDesc(userId, gameId);
@@ -71,7 +76,7 @@ public class QuizGameService {
 
 
      //Обрабатывает ответ пользователя для внутренней QUIZ-сессии.
-     //Проверяет ответ текущего вопроса, обновляет сессию и возвращает результат.
+     //Чекает ответ текущего вопроса, обновляет сессию и возвращает результат.
 
     public AnswerResponse answerQuestion(UUID sessionId, AnswerRequest answerRequest) {
         QuizGameSession session = quizGameSessionRepository.findById(sessionId)
@@ -104,7 +109,6 @@ public class QuizGameService {
                 .anyMatch(ans -> ans.equalsIgnoreCase(answerRequest.getAnswer()));
         int pointsAwarded = correct ? currentQuestion.getPoints() : 0;
 
-        // Дублируем вопрос и добавляем ответ
         AnswerResponse response = new AnswerResponse();
         response.setResult(correct ? "Correct" : "Uncorrect");
         response.setPointsAppended(pointsAwarded);
@@ -115,7 +119,7 @@ public class QuizGameService {
         response.setCorrectAnswers(currentQuestion.getCorrectAnswers());
         response.setTotalPoints(session.getTotalPoints() + pointsAwarded);
 
-        // Здесь обновление (инкрементация) данных
+        // Здесь обновление-инкрементация данных
         session.setTotalPoints(session.getTotalPoints() + pointsAwarded);
         session.setCurrentQuestion(session.getCurrentQuestion() + 1);
         quizGameSessionRepository.save(session);

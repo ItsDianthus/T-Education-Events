@@ -3,6 +3,8 @@ package com.t_educational.t_edu_events.game.quiz.model;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
+
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
@@ -34,7 +36,16 @@ public class QuizGameSession {
     @Column(name = "total_points", nullable = false)
     private int totalPoints;
 
-    // Новое поле для хранения ID квиз-конфигурации
+    @Column(name = "created_at", nullable = false)
+    private LocalDateTime createdAt;
+
+    @PrePersist
+    public void prePersist() {
+        if (this.createdAt == null) {
+            this.createdAt = LocalDateTime.now();
+        }
+    }
+
     @Column(name = "config_id", columnDefinition = "uuid", nullable = false)
     private UUID configId;
 }

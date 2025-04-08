@@ -10,4 +10,6 @@ import java.util.UUID;
 @Repository
 public interface QuizGameSessionRepository extends JpaRepository<QuizGameSession, UUID> {
     Optional<QuizGameSession> findTopByUserIdAndGameIdOrderBySessionIdDesc(UUID userId, UUID gameId);
+    Optional<QuizGameSession> findByUserIdAndGameId(UUID userId, UUID gameId);
+    Optional<QuizGameSession> findTopByUserIdAndGameIdOrderByCreatedAtDesc(UUID userId, UUID gameId);
 }

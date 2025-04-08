@@ -16,7 +16,7 @@ public class AdminEventController {
 
     private final EventRepository eventRepository;
 
-    // POST /admin/events — создание нового мероприятия. При создании isActive всегда false.
+    // POST api/admin/events — создание нового мероприятия. При создании isActive всегда false.
     @PostMapping
     public ResponseEntity<Event> createEvent(@RequestBody Event event) {
         // По умолчанию ивенты неактивны
