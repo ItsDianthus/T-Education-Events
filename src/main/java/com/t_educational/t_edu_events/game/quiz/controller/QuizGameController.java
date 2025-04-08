@@ -18,7 +18,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/quiz/session")
+@RequestMapping("/api/quiz")
 @RequiredArgsConstructor
 public class QuizGameController {
 
@@ -26,15 +26,15 @@ public class QuizGameController {
     private final QuizGameSessionRepository quizGameSessionRepository;
     private final UserRepository userRepository;
 
-    // GET /api/quiz/{gameId}/session – возвращает ID активной сессии для текущего пользователя по указанной игре
+    // GET /api/quiz/{gameId}/session – возвращает ID последней активной сессии для текущего пользователя и указанной игры
     @GetMapping("/{gameId}/session")
     public ResponseEntity<?> getActiveSession(@PathVariable UUID gameId, Principal principal) {
         String email = principal.getName();
         UUID userId = userRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("User not found"))
-                .getId();
+                .orElseThrow(() -> new RuntimeException("User not found")).getId();
 
-        Optional<QuizGameSession> sessionOpt = quizGameSessionRepository.findTopByUserIdAndGameIdOrderByCreatedAtDesc(userId, gameId);
+        Optional<QuizGameSession> sessionOpt = quizGameSessionRepository
+                .findTopByUserIdAndGameIdOrderByCreatedAtDesc(userId, gameId);
         if (sessionOpt.isPresent()) {
             Map<String, String> response = new HashMap<>();
             response.put("sessionId", sessionOpt.get().getSessionId().toString());
@@ -44,21 +44,37 @@ public class QuizGameController {
         }
     }
 
-     // POST /api/quiz/{gameId}/session/{sessionId}/answer
-     @PostMapping("/{sessionId}/answer")
+    // POST /api/quiz/{gameId}/answer – принимает ответ для последней активной сессии по указанной игре
+    @PostMapping("/{gameId}/answer")
     public ResponseEntity<AnswerResponse> answerQuestion(
-            @PathVariable UUID sessionId,
-            @RequestBody AnswerRequest answerRequest) {
-        AnswerResponse response = quizGameService.answerQuestion(sessionId, answerRequest);
+            @PathVariable UUID gameId,
+            @RequestBody AnswerRequest answerRequest,
+            Principal principal) {
+        String email = principal.getName();
+        UUID userId = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found")).getId();
+
+        // Находим последнюю активную сессию для данного пользователя и игры (это важноо)
+        QuizGameSession session = quizGameSessionRepository
+                .findTopByUserIdAndGameIdOrderByCreatedAtDesc(userId, gameId)
+                .orElseThrow(() -> new RuntimeException("Active session not found"));
+
+        AnswerResponse response = quizGameService.answerQuestion(session.getSessionId(), answerRequest);
         return ResponseEntity.ok(response);
     }
 
+    // GET /api/quiz/{gameId}/question – возвращает данные текущего вопроса для последней активной сессии по указанной игре
+    @GetMapping("/{gameId}/question")
+    public ResponseEntity<?> getCurrentQuestion(@PathVariable UUID gameId, Principal principal) {
+        String email = principal.getName();
+        UUID userId = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found")).getId();
 
-     // GET /api/quiz/{gameId}/session/{sessionId}/question - возвращает данные текущего вопроса для сессии.
-    @GetMapping("/{sessionId}/question")
-    public ResponseEntity<?> getCurrentQuestion(
-            @PathVariable UUID sessionId) {
-        Object questionData = quizGameService.getQuestion(sessionId);
+        QuizGameSession session = quizGameSessionRepository
+                .findTopByUserIdAndGameIdOrderByCreatedAtDesc(userId, gameId)
+                .orElseThrow(() -> new RuntimeException("Active session not found"));
+
+        Object questionData = quizGameService.getQuestion(session.getSessionId());
         return ResponseEntity.ok(questionData);
     }
 }

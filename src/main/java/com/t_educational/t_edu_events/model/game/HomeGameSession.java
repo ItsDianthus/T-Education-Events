@@ -6,12 +6,12 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
-@Table(name = "game_sessions")
+@Table(name = "home_game_sessions")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class GameSession {
+public class HomeGameSession {
 
     @Id
     @GeneratedValue
@@ -23,12 +23,6 @@ public class GameSession {
 
     @Column(name = "game_id", nullable = false)
     private UUID gameId;
-
-    @Column(name = "event_id", nullable = false)
-    private UUID eventId;
-
-    @Column(name = "category_id", nullable = false)
-    private UUID categoryId;
 
     @Column(name = "status", nullable = false)
     @Enumerated(EnumType.STRING)

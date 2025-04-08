@@ -28,10 +28,11 @@ public class QuizGameService {
         this.quizConfigRepository = quizConfigRepository;
         this.quizGameSessionRepository = quizGameSessionRepository;
     }
-
     public String startSession(String configReference, UUID userId, UUID gameId, String gameSessionIdReference) {
+        // Преобразуем configReference в UUID конфигурации
         UUID configId = UUID.fromString(configReference);
 
+        // Извлекаем конфигурацию по идентификатору
         QuizConfigEntity configEntity = quizConfigRepository.findById(configId)
                 .orElseThrow(() -> new RuntimeException("Quiz configuration not found"));
         QuizConfig config = configEntity.getConfigData();
@@ -39,22 +40,34 @@ public class QuizGameService {
             throw new RuntimeException("No questions found in configuration");
         }
 
+        // Извлекаем первый вопрос (индекс 0)
         QuizConfig.Question firstQuestion = config.getQuestions().get(0);
 
+        // Формируем Map с данными вопроса (без правильных ответов)
+        Map<String, Object> questionData = new HashMap<>();
+        questionData.put("questionText", firstQuestion.getQuestionText());
+        questionData.put("possibleAnswers", firstQuestion.getPossibleAnswers());
+        questionData.put("points", firstQuestion.getPoints());
+
+        // Формируем агрегированный ответ (начальное состояние внутренней сессии)
         Map<String, Object> engineState = new HashMap<>();
         engineState.put("currentQuestion", 1);
         engineState.put("totalPoints", 0);
-        engineState.put("question", firstQuestion);
+        engineState.put("question", questionData);
 
+        // Создаем и сохраняем внутреннюю сессию для QUIZ
         QuizGameSession quizSession = new QuizGameSession();
         quizSession.setUserId(userId);
         quizSession.setGameId(gameId);
+        // Здесь сохраняем внешний session ID как строковое представление, если нужно
         quizSession.setGameSessionIdReference(gameSessionIdReference);
         quizSession.setCurrentQuestion(1);
         quizSession.setTotalPoints(0);
         quizSession.setConfigId(configId);
+
         QuizGameSession savedQuizSession = quizGameSessionRepository.save(quizSession);
 
+        // Добавляем в ответ внутренний ID сессии, например под ключом "internalSessionId"
         engineState.put("internalSessionId", savedQuizSession.getSessionId().toString());
 
         try {
@@ -65,8 +78,9 @@ public class QuizGameService {
     }
 
 
+
     public int finishSession(UUID userId, UUID gameId) {
-        Optional<QuizGameSession> quizSessionOpt = quizGameSessionRepository.findTopByUserIdAndGameIdOrderBySessionIdDesc(userId, gameId);
+        Optional<QuizGameSession> quizSessionOpt = quizGameSessionRepository.findTopByUserIdAndGameIdOrderByCreatedAtDesc(userId, gameId);
         if (quizSessionOpt.isEmpty()) {
             throw new RuntimeException("Quiz session not found");
         }

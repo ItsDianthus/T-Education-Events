@@ -33,8 +33,8 @@ public class GameImplementation {
     @Column(columnDefinition = "text")
     private String description;
 
-    @Column(nullable = false)
-    private boolean isHomeEnable;
+    @Column(name = "home_enable", nullable = false)
+    private boolean homeEnable;
 
     @ManyToMany
     @JoinTable(
@@ -43,4 +43,7 @@ public class GameImplementation {
             inverseJoinColumns = @JoinColumn(name = "category_id")
     )
     private Set<Category> categories = new HashSet<>();
+
+    @Column(name = "max_points")
+    private Integer maxPoints;
 }

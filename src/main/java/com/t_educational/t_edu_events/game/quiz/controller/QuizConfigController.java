@@ -36,6 +36,14 @@ public class QuizConfigController {
         return ResponseEntity.ok(configs);
     }
 
+    // GET /api/admin/quiz-configurations/{configId} - получение конкретной конфигурации
+    @GetMapping("/{configId}")
+    public ResponseEntity<QuizConfigEntity> getQuizConfig(@PathVariable UUID configId) {
+        QuizConfigEntity config = quizConfigRepository.findById(configId)
+                .orElseThrow(() -> new RuntimeException("Quiz configuration not found"));
+        return ResponseEntity.ok(config);
+    }
+
     // DELETE /api/admin/quiz-configurations/{configId} — удаление конфигурации
     @DeleteMapping("/{configId}")
     public ResponseEntity<Void> deleteQuizConfig(@PathVariable UUID configId) {
