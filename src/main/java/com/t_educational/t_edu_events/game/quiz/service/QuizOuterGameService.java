@@ -1,4 +1,4 @@
-package com.t_educational.t_edu_events.game.quiz;
+package com.t_educational.t_edu_events.game.quiz.service;
 
 import com.t_educational.t_edu_events.game.quiz.model.QuizConfig;
 import com.t_educational.t_edu_events.game.quiz.model.QuizConfigEntity;

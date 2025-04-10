@@ -2,7 +2,7 @@ package com.t_educational.t_edu_events.game.quiz.controller;
 
 import com.t_educational.t_edu_events.game.quiz.dto.AnswerRequest;
 import com.t_educational.t_edu_events.game.quiz.dto.AnswerResponse;
-import com.t_educational.t_edu_events.game.quiz.QuizGameService;
+import com.t_educational.t_edu_events.game.quiz.service.QuizGameService;
 import com.t_educational.t_edu_events.game.quiz.model.QuizGameSession;
 import com.t_educational.t_edu_events.game.quiz.repository.QuizGameSessionRepository;
 import com.t_educational.t_edu_events.repository.UserRepository;

@@ -1,6 +1,6 @@
 package com.t_educational.t_edu_events.controller;
 
-import com.t_educational.t_edu_events.game.quiz.QuizGameService;
+import com.t_educational.t_edu_events.game.quiz.service.QuizGameService;
 import com.t_educational.t_edu_events.model.game.GameImplementation;
 import com.t_educational.t_edu_events.model.game.GameSession;
 import com.t_educational.t_edu_events.model.game.GameSessionStatus;
@@ -73,6 +73,7 @@ public class GameSessionController {
      }
 
     // POST /api/events/{eventId}/categories/{categoryId}/games/{gameId}/finish - завершение сессии
+    @PostMapping("/finish")
     public ResponseEntity<GameSession> finishGameSession(
             @PathVariable UUID eventId,
             @PathVariable UUID categoryId,

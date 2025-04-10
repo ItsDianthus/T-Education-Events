@@ -6,7 +6,7 @@ import com.t_educational.t_edu_events.model.game.HomeGameSession;
 import com.t_educational.t_edu_events.repository.GameImplementationRepository;
 import com.t_educational.t_edu_events.repository.HomeGameSessionRepository;
 import com.t_educational.t_edu_events.repository.UserRepository;
-import com.t_educational.t_edu_events.game.quiz.QuizGameService;
+import com.t_educational.t_edu_events.game.quiz.service.QuizGameService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -16,7 +16,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/api/admin/events/{eventID}/categories")
 @RequiredArgsConstructor
-public class EventCategoryAdminController {
+public class AdminEventCategoryController {
 
     private final EventRepository eventRepository;
     private final CategoryRepository categoryRepository;

@@ -1,6 +1,6 @@
 package com.t_educational.t_edu_events.controller.admin;
 
-import com.t_educational.t_edu_events.game.quiz.QuizOuterGameService;
+import com.t_educational.t_edu_events.game.quiz.service.QuizOuterGameService;
 import com.t_educational.t_edu_events.model.game.GameImplementation;
 import com.t_educational.t_edu_events.repository.GameImplementationRepository;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +13,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/api/admin/games")
 @RequiredArgsConstructor
-public class GameImplementationController {
+public class AdminGameImplementationController {
 
     private final GameImplementationRepository gameImplementationRepository;
     private final QuizOuterGameService quizOuterGameService;

@@ -1,4 +1,4 @@
-package com.t_educational.t_edu_events.game.quiz;
+package com.t_educational.t_edu_events.game.quiz.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.t_educational.t_edu_events.game.quiz.dto.AnswerRequest;
@@ -29,10 +29,8 @@ public class QuizGameService {
         this.quizGameSessionRepository = quizGameSessionRepository;
     }
     public String startSession(String configReference, UUID userId, UUID gameId, String gameSessionIdReference) {
-        // Преобразуем configReference в UUID конфигурации
         UUID configId = UUID.fromString(configReference);
 
-        // Извлекаем конфигурацию по идентификатору
         QuizConfigEntity configEntity = quizConfigRepository.findById(configId)
                 .orElseThrow(() -> new RuntimeException("Quiz configuration not found"));
         QuizConfig config = configEntity.getConfigData();
@@ -40,26 +38,21 @@ public class QuizGameService {
             throw new RuntimeException("No questions found in configuration");
         }
 
-        // Извлекаем первый вопрос (индекс 0)
         QuizConfig.Question firstQuestion = config.getQuestions().get(0);
 
-        // Формируем Map с данными вопроса (без правильных ответов)
         Map<String, Object> questionData = new HashMap<>();
         questionData.put("questionText", firstQuestion.getQuestionText());
         questionData.put("possibleAnswers", firstQuestion.getPossibleAnswers());
         questionData.put("points", firstQuestion.getPoints());
 
-        // Формируем агрегированный ответ (начальное состояние внутренней сессии)
         Map<String, Object> engineState = new HashMap<>();
         engineState.put("currentQuestion", 1);
         engineState.put("totalPoints", 0);
         engineState.put("question", questionData);
 
-        // Создаем и сохраняем внутреннюю сессию для QUIZ
         QuizGameSession quizSession = new QuizGameSession();
         quizSession.setUserId(userId);
         quizSession.setGameId(gameId);
-        // Здесь сохраняем внешний session ID как строковое представление, если нужно
         quizSession.setGameSessionIdReference(gameSessionIdReference);
         quizSession.setCurrentQuestion(1);
         quizSession.setTotalPoints(0);
@@ -67,7 +60,6 @@ public class QuizGameService {
 
         QuizGameSession savedQuizSession = quizGameSessionRepository.save(quizSession);
 
-        // Добавляем в ответ внутренний ID сессии, например под ключом "internalSessionId"
         engineState.put("internalSessionId", savedQuizSession.getSessionId().toString());
 
         try {
@@ -76,8 +68,6 @@ public class QuizGameService {
             throw new RuntimeException("Error generating engine data", e);
         }
     }
-
-
 
     public int finishSession(UUID userId, UUID gameId) {
         Optional<QuizGameSession> quizSessionOpt = quizGameSessionRepository.findTopByUserIdAndGameIdOrderByCreatedAtDesc(userId, gameId);
@@ -90,7 +80,7 @@ public class QuizGameService {
 
 
      //Обрабатывает ответ пользователя для внутренней QUIZ-сессии.
-     //Чекает ответ текущего вопроса, обновляет сессию и возвращает результат.
+     //Чекает ответ текущего вопроса, обновляет сессию и возвращает результат
 
     public AnswerResponse answerQuestion(UUID sessionId, AnswerRequest answerRequest) {
         QuizGameSession session = quizGameSessionRepository.findById(sessionId)
@@ -118,7 +108,6 @@ public class QuizGameService {
 
         QuizConfig.Question currentQuestion = config.getQuestions().get(currentIndex);
 
-        // Чекаем правильность ответа
         boolean correct = currentQuestion.getCorrectAnswers().stream()
                 .anyMatch(ans -> ans.equalsIgnoreCase(answerRequest.getAnswer()));
         int pointsAwarded = correct ? currentQuestion.getPoints() : 0;
@@ -133,7 +122,6 @@ public class QuizGameService {
         response.setCorrectAnswers(currentQuestion.getCorrectAnswers());
         response.setTotalPoints(session.getTotalPoints() + pointsAwarded);
 
-        // Здесь обновление-инкрементация данных
         session.setTotalPoints(session.getTotalPoints() + pointsAwarded);
         session.setCurrentQuestion(session.getCurrentQuestion() + 1);
         quizGameSessionRepository.save(session);
@@ -170,5 +158,4 @@ public class QuizGameService {
         }
         return questionResponse;
     }
-
 }

@@ -1,4 +1,4 @@
-package com.t_educational.t_edu_events.game.quiz;
+package com.t_educational.t_edu_events.game.quiz.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.t_educational.t_edu_events.game.quiz.model.QuizConfig;
@@ -21,6 +21,9 @@ public class QuizConfigConverter implements AttributeConverter<QuizConfig, Strin
 
     @Override
     public QuizConfig convertToEntityAttribute(String dbData) {
+        if (dbData == null) {
+            return null;
+        }
         try {
             return objectMapper.readValue(dbData, QuizConfig.class);
         } catch (Exception e) {

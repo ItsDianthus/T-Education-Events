@@ -57,13 +57,4 @@ public class JwtUtil {
             throw new JwtTokenException("Ошибка извлечения роли из JWT: " + e.getMessage());
         }
     }
-
-    public boolean validateToken(String token) {
-        try {
-            Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
-            return true;
-        } catch (JwtException | IllegalArgumentException e) {
-            return false;
-        }
-    }
 }

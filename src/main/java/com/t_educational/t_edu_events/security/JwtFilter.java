@@ -54,7 +54,6 @@ public class JwtFilter extends OncePerRequestFilter {
         chain.doFilter(request, response);
     }
 
-    // Вспомогательный метод для установки JSON-ответа с ошибкой
     private void setErrorResponse(HttpServletResponse response, int status, String message) throws IOException {
         response.setStatus(status);
         response.setContentType("application/json");
