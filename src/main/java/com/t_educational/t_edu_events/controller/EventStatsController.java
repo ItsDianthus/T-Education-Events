@@ -1,7 +1,7 @@
 package com.t_educational.t_edu_events.controller;
 
 import com.t_educational.t_edu_events.dto.UserStatsDTO;
-import com.t_educational.t_edu_events.repository.GameSessionRepository;
+import com.t_educational.t_edu_events.repository.game.GameSessionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

@@ -1,4 +1,4 @@
-package com.t_educational.t_edu_events.repository;
+package com.t_educational.t_edu_events.repository.game;
 
 import com.t_educational.t_edu_events.model.game.GameImplementation;
 import org.springframework.data.jpa.repository.JpaRepository;

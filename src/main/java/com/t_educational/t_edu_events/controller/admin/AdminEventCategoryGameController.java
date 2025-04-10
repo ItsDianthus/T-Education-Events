@@ -4,6 +4,7 @@ import com.t_educational.t_edu_events.model.game.GameImplementation;
 import com.t_educational.t_edu_events.repository.*;
 import com.t_educational.t_edu_events.model.*;
 import com.t_educational.t_edu_events.repository.EventCategoryGameRepository;
+import com.t_educational.t_edu_events.repository.game.GameImplementationRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

@@ -4,8 +4,8 @@ import com.t_educational.t_edu_events.dto.UserProfileUpdateDto;
 import com.t_educational.t_edu_events.exception.UserNotFoundException;
 import com.t_educational.t_edu_events.model.account.User;
 import com.t_educational.t_edu_events.model.account.UserProfile;
-import com.t_educational.t_edu_events.repository.UserProfileRepository;
-import com.t_educational.t_edu_events.repository.UserRepository;
+import com.t_educational.t_edu_events.repository.account.UserProfileRepository;
+import com.t_educational.t_edu_events.repository.account.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

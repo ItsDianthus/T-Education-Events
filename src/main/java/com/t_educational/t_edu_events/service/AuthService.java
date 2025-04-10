@@ -2,7 +2,7 @@ package com.t_educational.t_edu_events.service;
 
 import com.t_educational.t_edu_events.model.account.User;
 import com.t_educational.t_edu_events.model.account.UserProfile;
-import com.t_educational.t_edu_events.repository.UserRepository;
+import com.t_educational.t_edu_events.repository.account.UserRepository;
 import com.t_educational.t_edu_events.security.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;

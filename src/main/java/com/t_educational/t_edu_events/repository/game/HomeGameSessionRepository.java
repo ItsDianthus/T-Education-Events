@@ -1,8 +1,6 @@
-package com.t_educational.t_edu_events.repository;
+package com.t_educational.t_edu_events.repository.game;
 
-import com.t_educational.t_edu_events.model.game.GameSession;
 import com.t_educational.t_edu_events.model.game.HomeGameSession;
-import com.t_educational.t_edu_events.model.game.GameSessionStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

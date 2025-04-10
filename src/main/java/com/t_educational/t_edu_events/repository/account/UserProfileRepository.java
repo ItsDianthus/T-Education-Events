@@ -1,4 +1,4 @@
-package com.t_educational.t_edu_events.repository;
+package com.t_educational.t_edu_events.repository.account;
 
 import com.t_educational.t_edu_events.model.account.UserProfile;
 import org.springframework.data.jpa.repository.JpaRepository;

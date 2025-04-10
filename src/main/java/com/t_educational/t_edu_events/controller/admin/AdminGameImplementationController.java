@@ -2,7 +2,7 @@ package com.t_educational.t_edu_events.controller.admin;
 
 import com.t_educational.t_edu_events.game.quiz.service.QuizOuterGameService;
 import com.t_educational.t_edu_events.model.game.GameImplementation;
-import com.t_educational.t_edu_events.repository.GameImplementationRepository;
+import com.t_educational.t_edu_events.repository.game.GameImplementationRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
